@@ -1,0 +1,19 @@
+-- One-time: point seeded product images at S3/CloudFront (media migration)
+UPDATE products SET image_url='https://dv0xg2r00n59r.cloudfront.net/products/tactical-harness-set.jpg' WHERE slug='tactical-harness-set';
+UPDATE products SET image_url='https://dv0xg2r00n59r.cloudfront.net/products/airtag-padded-harness.jpg' WHERE slug='airtag-padded-harness';
+UPDATE products SET image_url='https://dv0xg2r00n59r.cloudfront.net/products/reflective-front-harness.jpg' WHERE slug='reflective-front-harness';
+UPDATE products SET image_url='https://dv0xg2r00n59r.cloudfront.net/products/bungee-reflexive-leash.jpg' WHERE slug='bungee-reflexive-leash';
+UPDATE products SET image_url='https://dv0xg2r00n59r.cloudfront.net/products/padded-nylon-leash.jpg' WHERE slug='padded-nylon-leash';
+UPDATE products SET image_url='https://dv0xg2r00n59r.cloudfront.net/products/airtag-reflective-collar.jpg' WHERE slug='airtag-reflective-collar';
+UPDATE products SET image_url='https://dv0xg2r00n59r.cloudfront.net/products/orthopedic-bolster-bed.jpg' WHERE slug='orthopedic-bolster-bed';
+UPDATE products SET image_url='https://dv0xg2r00n59r.cloudfront.net/products/slicker-brush.jpg' WHERE slug='slicker-brush';
+UPDATE products SET image_url='https://dv0xg2r00n59r.cloudfront.net/products/stainless-comb.jpg' WHERE slug='stainless-comb';
+UPDATE products SET image_url='https://dv0xg2r00n59r.cloudfront.net/products/silicone-toothbrush-set.jpg' WHERE slug='silicone-toothbrush-set';
+UPDATE products SET image_url='https://dv0xg2r00n59r.cloudfront.net/products/puzzle-mat.jpg' WHERE slug='puzzle-mat';
+UPDATE products SET image_url='https://dv0xg2r00n59r.cloudfront.net/products/chew-module.jpg' WHERE slug='chew-module';
+UPDATE products SET image_url='https://dv0xg2r00n59r.cloudfront.net/products/airtag-holder.jpg' WHERE slug='airtag-holder';
+UPDATE products SET image_url='https://dv0xg2r00n59r.cloudfront.net/products/dog-goggles.jpg' WHERE slug='dog-goggles';
+UPDATE products SET image_url='https://dv0xg2r00n59r.cloudfront.net/products/travel-water-bottle.jpg' WHERE slug='travel-water-bottle';
+UPDATE products SET image_url='https://dv0xg2r00n59r.cloudfront.net/products/cat-reflective-harness-set.jpg' WHERE slug='cat-reflective-harness-set';
+UPDATE products SET image_url='https://dv0xg2r00n59r.cloudfront.net/products/cat-printed-collar.jpg' WHERE slug='cat-printed-collar';
+UPDATE products SET image_url='https://dv0xg2r00n59r.cloudfront.net/products/cat-wand-teaser.jpg' WHERE slug='cat-wand-teaser';

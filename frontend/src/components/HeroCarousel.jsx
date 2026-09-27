@@ -5,19 +5,19 @@ import { ArrowRight } from "lucide-react";
 
 const SLIDES = [
   {
-    video: "https://assets.mixkit.co/videos/1494/1494-1080.mp4",
+    video: "https://dv0xg2r00n59r.cloudfront.net/video/1494-1080.mp4",
     kicker: "Vol. 01 — The Walking Edit",
     lines: ["WHERE PETS THRIVE,", "HOMES COME ALIVE."],
     cta: { label: "Shop the Drop", to: "/shop" },
   },
   {
-    video: "https://assets.mixkit.co/videos/1532/1532-1080.mp4",
+    video: "https://dv0xg2r00n59r.cloudfront.net/video/1532-1080.mp4",
     kicker: "Monochrome gear for daily rituals",
     lines: ["EVERY WALK,", "A RUNWAY."],
     cta: { label: "Shop Walking Gear", to: "/shop?group=walking" },
   },
   {
-    video: "https://assets.mixkit.co/videos/45868/45868-720.mp4",
+    video: "https://dv0xg2r00n59r.cloudfront.net/video/45868-720.mp4",
     kicker: "Style Your Kit — save 20% on 3+ items",
     lines: ["PLAY IS", "A DISCIPLINE."],
     cta: { label: "Build Your Kit", to: "/kit" },

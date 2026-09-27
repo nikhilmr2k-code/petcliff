@@ -7,11 +7,11 @@ import { useCart } from "../context/CartContext";
 import { toast } from "sonner";
 
 const REELS = [
-  { video: "https://assets.mixkit.co/videos/1548/1548-720.mp4", caption: "The Daily Pant", match: ["Bungee Reflexive Leash", "AirTag & Reflective Collar"] },
-  { video: "https://assets.mixkit.co/videos/1210/1210-720.mp4", caption: "Double Trouble", match: ["Enrichment Puzzle Mat", "Chew Module"] },
-  { video: "https://assets.mixkit.co/videos/1552/1552-720.mp4", caption: "Off Duty", match: ["Orthopedic Bolster Bed", "Reflective Front Harness"] },
-  { video: "https://assets.mixkit.co/videos/1494/1494-1080.mp4", caption: "Trail Ready", match: ["Tactical Harness Set", "Bungee Reflexive Leash"] },
-  { video: "https://assets.mixkit.co/videos/1532/1532-1080.mp4", caption: "Groom Room", match: ["Slicker Brush", "Stainless Steel Comb"] },
+  { video: "https://dv0xg2r00n59r.cloudfront.net/video/1548-720.mp4", caption: "The Daily Pant", match: ["Bungee Reflexive Leash", "AirTag & Reflective Collar"] },
+  { video: "https://dv0xg2r00n59r.cloudfront.net/video/1210-720.mp4", caption: "Double Trouble", match: ["Enrichment Puzzle Mat", "Chew Module"] },
+  { video: "https://dv0xg2r00n59r.cloudfront.net/video/1552-720.mp4", caption: "Off Duty", match: ["Orthopedic Bolster Bed", "Reflective Front Harness"] },
+  { video: "https://dv0xg2r00n59r.cloudfront.net/video/1494-1080.mp4", caption: "Trail Ready", match: ["Tactical Harness Set", "Bungee Reflexive Leash"] },
+  { video: "https://dv0xg2r00n59r.cloudfront.net/video/1532-1080.mp4", caption: "Groom Room", match: ["Slicker Brush", "Stainless Steel Comb"] },
 ];
 
 export default function ReelModule() {
