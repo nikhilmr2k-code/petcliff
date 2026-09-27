@@ -56,8 +56,9 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b border-line bg-paper/95 backdrop-blur-md" data-testid="main-header">
       <div className="mx-auto flex max-w-[1440px] items-center justify-between px-4 py-4 sm:px-8">
         <div className="flex items-center gap-10">
-          <Link to="/" data-testid="nav-brand-logo" className="font-display text-xl font-black tracking-[0.08em]">
-            PET CLIFF
+          <Link to="/" data-testid="nav-brand-logo" className="flex items-center" aria-label="Pet Cliff home">
+            <img src="https://dv0xg2r00n59r.cloudfront.net/brand/petcliff-logo.jpg" alt="PET CLIFF"
+              className="h-11 w-auto object-contain" />
           </Link>
           <nav className="hidden items-center gap-7 lg:flex">
             <div className="group relative py-2">

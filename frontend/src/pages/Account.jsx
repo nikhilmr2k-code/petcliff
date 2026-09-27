@@ -157,14 +157,95 @@ function ChangePassword() {
   );
 }
 
+const STATUS_STEPS = ["placed", "paid", "fulfilled"];
+const STATUS_INDEX = { pending: 0, placed: 0, paid: 1, fulfilled: 2 };
+
+function StatusStepper({ status }) {
+  const s = (status || "").toLowerCase();
+  if (s === "cancelled" || s === "refunded") {
+    return <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-steel">{s}</span>;
+  }
+  const active = STATUS_INDEX[s] ?? 0;
+  return (
+    <div className="flex items-center gap-2" data-testid="order-stepper">
+      {STATUS_STEPS.map((step, i) => (
+        <div key={step} className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
+            <span className={`h-2 w-2 ${i <= active ? "bg-ink" : "bg-line"}`} />
+            <span className={`font-mono text-[9px] uppercase tracking-[0.18em] ${i <= active ? "text-ink" : "text-steel"}`}>{step}</span>
+          </div>
+          {i < STATUS_STEPS.length - 1 && <span className={`h-px w-5 ${i < active ? "bg-ink" : "bg-line"}`} />}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function StatusBadge({ status }) {
+  const s = (status || "").toLowerCase();
+  const dark = s === "paid" || s === "fulfilled";
+  return (
+    <span className={`px-2 py-1 font-mono text-[9px] uppercase tracking-[0.2em] ${dark ? "bg-ink text-paper" : "border border-ink text-ink"}`}>
+      {s || "pending"}
+    </span>
+  );
+}
+
+function OrderRow({ order }) {
+  const [open, setOpen] = useState(false);
+  const date = order.createdAt ? new Date(order.createdAt).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }) : "";
+  const items = order.items || [];
+  return (
+    <li className="p-4" data-testid={`order-${String(order.id).slice(0, 8)}`}>
+      <button onClick={() => setOpen((v) => !v)} className="flex w-full items-center justify-between gap-4 text-left">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs uppercase tracking-widest">#{String(order.id).slice(0, 8)}</span>
+            <StatusBadge status={order.status} />
+          </div>
+          <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-steel">{date} · {items.length} item{items.length === 1 ? "" : "s"}</div>
+        </div>
+        <div className="text-right">
+          <div className="font-display font-bold">${((order.totalCents ?? 0) / 100).toFixed(2)}</div>
+          <div className="font-mono text-[9px] uppercase tracking-widest text-steel">{open ? "Hide" : "Details"}</div>
+        </div>
+      </button>
+      <div className="mt-3"><StatusStepper status={order.status} /></div>
+      {open && (
+        <div className="mt-4 space-y-2 border-t border-line pt-4">
+          {items.map((it, idx) => (
+            <div key={idx} className="flex items-center gap-3">
+              {it.image && <img src={it.image} alt="" loading="lazy" className="product-media h-10 w-10 object-cover" />}
+              <div className="flex-1 min-w-0">
+                <div className="truncate text-xs font-medium uppercase tracking-wide">{it.name}</div>
+                <div className="font-mono text-[10px] text-steel">Qty {it.quantity} · ${((it.unitPriceCents ?? 0) / 100).toFixed(2)}</div>
+              </div>
+              <div className="font-mono text-xs">${(((it.unitPriceCents ?? 0) * (it.quantity ?? 1)) / 100).toFixed(2)}</div>
+            </div>
+          ))}
+          {order.discountCents > 0 && (
+            <div className="flex justify-between font-mono text-[10px] uppercase tracking-widest text-steel">
+              <span>Discount</span><span>−${((order.discountCents) / 100).toFixed(2)}</span>
+            </div>
+          )}
+        </div>
+      )}
+    </li>
+  );
+}
+
 function Dashboard() {
   const { user, logout } = useAuth();
   const [orders, setOrders] = useState([]);
+  const [referral, setReferral] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     api.get("/orders").then((r) => setOrders(r.data || [])).catch(() => setOrders([]));
+    api.get("/referral/me").then((r) => setReferral(r.data)).catch(() => {});
   }, []);
+
+  const fullName = [user?.firstName, user?.lastName].filter(Boolean).join(" ");
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -182,20 +263,28 @@ function Dashboard() {
         </button>
       </div>
 
-      <h2 className="mb-4 font-display text-lg font-extrabold tracking-[0.12em]">ORDER HISTORY</h2>
+      <div className="mb-12 grid gap-4 sm:grid-cols-2" data-testid="account-profile">
+        <div className="border border-line p-4">
+          <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-steel">Profile</div>
+          <div className="mt-2 font-display text-lg font-bold">{fullName || "—"}</div>
+          <div className="text-sm text-steel">{user?.email}</div>
+          {user?.role === "admin" && <div className="mt-1 font-mono text-[10px] uppercase tracking-[0.2em]">Admin</div>}
+        </div>
+        {referral?.code && (
+          <div className="border border-line p-4">
+            <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-steel">Give $10, Get $10</div>
+            <div className="mt-2 font-display text-lg font-bold tracking-wide">{referral.code}</div>
+            <div className="truncate text-xs text-steel">{referral.shareUrl}</div>
+          </div>
+        )}
+      </div>
+
+      <h2 className="mb-4 font-display text-lg font-extrabold tracking-[0.12em]">ORDERS</h2>
       {orders.length === 0 ? (
-        <p className="border border-line bg-mist p-6 text-sm text-steel">No orders yet.</p>
+        <p className="border border-line bg-mist p-6 text-sm text-steel" data-testid="orders-empty">No orders yet.</p>
       ) : (
-        <ul className="divide-y divide-line border border-line">
-          {orders.map((o) => (
-            <li key={o.id} className="flex items-center justify-between p-4">
-              <div>
-                <div className="font-mono text-xs uppercase tracking-widest">#{String(o.id).slice(0, 8)}</div>
-                <div className="text-xs text-steel">{o.status}</div>
-              </div>
-              <div className="font-display font-bold">${((o.totalCents ?? 0) / 100).toFixed(2)}</div>
-            </li>
-          ))}
+        <ul className="divide-y divide-line border border-line" data-testid="orders-list">
+          {orders.map((o) => <OrderRow key={o.id} order={o} />)}
         </ul>
       )}
 

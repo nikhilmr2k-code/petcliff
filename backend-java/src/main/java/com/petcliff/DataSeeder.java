@@ -120,6 +120,12 @@ public class DataSeeder implements CommandLineRunner {
         add("cat-reflective-harness-set", "Reflective Harness Set", "cat", "walking", "harness", 4200, null, "Black");
         add("cat-printed-collar", "Printed & Reflective Collar", "cat", "walking", "collar", 1900, null, "White");
         add("cat-wand-teaser", "Wand Teaser Toy", "cat", "toys", "wand", 1500, null, "Black");
+        // cat — rounding out the range across categories
+        add("cat-airtag-collar-holder", "Cat AirTag Collar Holder", "cat", "accessories", "airtag", 1600, null, "Black");
+        add("cat-travel-bowl", "Cat Travel Bowl", "cat", "accessories", "bowl", 1400, null, "White");
+        add("cat-window-perch", "Cat Window Perch", "cat", "resting", "perch", 3900, null, "Black");
+        add("cat-grooming-glove", "Cat Grooming Glove", "cat", "grooming", "glove", 1500, null, "Black");
+        add("cat-catnip-kicker", "Catnip Kicker Toy", "cat", "toys", "kicker", 1200, null, "Black");
     }
 
     private void add(String slug, String name, String pet, String group, String subtype,
