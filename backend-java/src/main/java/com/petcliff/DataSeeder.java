@@ -1,14 +1,17 @@
 package com.petcliff;
 
 import com.petcliff.entity.AdminSetting;
+import com.petcliff.entity.Customer;
 import com.petcliff.entity.Product;
 import com.petcliff.entity.PromotionCode;
 import com.petcliff.repository.AdminSettingRepository;
+import com.petcliff.repository.CustomerRepository;
 import com.petcliff.repository.ProductRepository;
 import com.petcliff.repository.PromotionCodeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
@@ -41,11 +44,16 @@ public class DataSeeder implements CommandLineRunner {
     private final ProductRepository products;
     private final PromotionCodeRepository promos;
     private final AdminSettingRepository settings;
+    private final CustomerRepository customers;
+    private final PasswordEncoder passwordEncoder;
 
-    public DataSeeder(ProductRepository products, PromotionCodeRepository promos, AdminSettingRepository settings) {
+    public DataSeeder(ProductRepository products, PromotionCodeRepository promos, AdminSettingRepository settings,
+                      CustomerRepository customers, PasswordEncoder passwordEncoder) {
         this.products = products;
         this.promos = promos;
         this.settings = settings;
+        this.customers = customers;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -62,6 +70,17 @@ public class DataSeeder implements CommandLineRunner {
             p.setActive(true);
             promos.save(p);
             log.info("Seeded promo WELCOME10");
+        }
+        if (!customers.existsByEmail("admin@petcliff.com")) {
+            Customer admin = new Customer();
+            admin.setEmail("admin@petcliff.com");
+            admin.setPasswordHash(passwordEncoder.encode("PetCliff@2026"));
+            admin.setFirstName("Pet Cliff");
+            admin.setLastName("Admin");
+            admin.setReferralCode("ADMIN-PETCLIFF");
+            admin.setAdmin(true);
+            customers.save(admin);
+            log.info("Seeded admin user admin@petcliff.com");
         }
         if (settings.findById("announcement").isEmpty()) {
             AdminSetting s = new AdminSetting();
