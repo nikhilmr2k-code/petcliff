@@ -77,7 +77,7 @@ export default function KitBuilder() {
                         <button key={p.id} data-testid={`kit-option-${p.id}`} onClick={() => toggle(step.key, p)}
                           className={`group relative border text-left transition-all duration-200 ${isSel ? "border-ink bg-ink text-paper" : "border-line bg-paper hover:border-ink"}`}>
                           <div className="relative aspect-square overflow-hidden">
-                            <img src={p.image} alt={p.name} className="mono-media h-full w-full object-cover" />
+                            <img src={p.image} alt={p.name} className="product-media h-full w-full object-cover" />
                             {isSel && (
                               <span className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center bg-paper text-ink"><Check size={13} /></span>
                             )}
@@ -114,7 +114,7 @@ export default function KitBuilder() {
                 <ul className="space-y-3">
                   {chosen.map((p) => (
                     <li key={p.id} className="flex items-center gap-3" data-testid={`kit-selected-${p.id}`}>
-                      <img src={p.image} alt="" className="mono-media h-10 w-10 border border-line object-cover" />
+                      <img src={p.image} alt="" className="product-media h-10 w-10 border border-line object-cover" />
                       <span className="flex-1 text-xs font-bold uppercase tracking-wide">{p.name}</span>
                       <span className="font-mono text-xs">${p.price.toFixed(2)}</span>
                     </li>
@@ -123,13 +123,22 @@ export default function KitBuilder() {
               )}
 
               <div className="mt-6 space-y-1.5 border-t border-line pt-4 font-mono text-xs">
-                <div className="flex justify-between text-steel"><span>Individual items</span><span data-testid="kit-individual-total">${individual.toFixed(2)}</span></div>
-                <div className="flex justify-between font-bold">
+                <div className="flex justify-between text-steel">
+                  <span>Individual items</span>
+                  <span data-testid="kit-individual-total" className={unlocked ? "text-steel line-through" : ""}>${individual.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-base font-black">
                   <span>Kit price {unlocked ? "(−20%)" : ""}</span>
                   <span data-testid="kit-price">${kitPrice.toFixed(2)}</span>
                 </div>
-                {unlocked && <div className="flex justify-between font-bold" data-testid="kit-savings"><span>You save</span><span>${savings.toFixed(2)}</span></div>}
               </div>
+
+              {unlocked && (
+                <div data-testid="kit-savings" className="mt-3 flex items-center justify-between bg-ink px-4 py-3 text-paper">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.25em]">You save</span>
+                  <span className="font-display text-lg font-black">${savings.toFixed(2)} <span className="font-mono text-[11px] tracking-widest">(20%)</span></span>
+                </div>
+              )}
 
               {!unlocked && chosen.length > 0 && (
                 <p className="mt-4 border border-dashed border-line p-3 font-mono text-[10px] uppercase leading-relaxed tracking-widest text-steel" data-testid="kit-locked-hint">

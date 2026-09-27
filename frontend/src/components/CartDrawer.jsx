@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Minus, Plus, Trash2, ArrowRight, Truck, Tag, MapPin } from "lucide-react";
+import { X, Minus, Plus, Trash2, ArrowRight, Truck, Tag, MapPin, Check } from "lucide-react";
 import { useCart, computeKitGroups, KIT_MIN, FREE_SHIPPING } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "sonner";
@@ -62,7 +62,7 @@ export default function CartDrawer() {
   const renderItem = (item, inKit) => (
     <motion.li key={item.id + (item.kit_id || "")} layout initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, x: 40 }}
       className="flex gap-3" data-testid={`cart-item-${item.id}`}>
-      <img src={item.image} alt={item.name} className="mono-media h-16 w-16 border border-line object-cover" />
+      <img src={item.image} alt={item.name} className="product-media h-16 w-16 border border-line object-cover" />
       <div className="flex flex-1 flex-col">
         <div className="flex items-start justify-between gap-2">
           <p className="text-xs font-bold uppercase leading-snug tracking-wide">{item.name}</p>
@@ -99,9 +99,9 @@ export default function CartDrawer() {
             </div>
 
             <div className="border-b border-line px-6 py-3.5">
-              <div className="mb-2 flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-steel">
-                <Truck size={13} />
-                {subtotal >= FREE_SHIPPING ? "Free US shipping unlocked" : `$${(FREE_SHIPPING - subtotal).toFixed(2)} from free shipping`}
+              <div className="mb-2 flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-steel" data-testid="free-shipping-status">
+                {subtotal >= FREE_SHIPPING ? <Check size={13} className="text-ink" /> : <Truck size={13} />}
+                {subtotal >= FREE_SHIPPING ? "You've unlocked free US shipping" : `Add $${(FREE_SHIPPING - subtotal).toFixed(2)} for free shipping`}
               </div>
               <div className="h-1 bg-smoke">
                 <motion.div className="h-full bg-ink" animate={{ width: `${progress * 100}%` }} transition={{ duration: 0.4 }} />
@@ -179,9 +179,26 @@ export default function CartDrawer() {
                   </div>
                 </div>
 
+                <div className="mt-4 space-y-2" data-testid="express-checkout">
+                  <div className="flex items-center gap-3 pb-1">
+                    <span className="h-px flex-1 bg-line" />
+                    <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-steel">Express checkout</span>
+                    <span className="h-px flex-1 bg-line" />
+                  </div>
+                  <button data-testid="express-shop-pay" onClick={checkout} disabled={checkingOut}
+                    className="flex w-full items-center justify-center py-3 font-display text-sm font-black tracking-wide text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+                    style={{ backgroundColor: "#5A31F4" }} aria-label="Shop Pay">Shop&nbsp;Pay</button>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button data-testid="express-apple-pay" onClick={checkout} disabled={checkingOut}
+                      className="flex items-center justify-center bg-black py-3 font-display text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-60" aria-label="Apple Pay"> Pay</button>
+                    <button data-testid="express-google-pay" onClick={checkout} disabled={checkingOut}
+                      className="flex items-center justify-center border border-ink bg-paper py-3 font-display text-sm font-bold transition-colors hover:bg-mist disabled:opacity-60" aria-label="Google Pay">G&nbsp;Pay</button>
+                  </div>
+                </div>
+
                 <motion.button data-testid="cart-checkout-button" whileTap={{ scale: 0.97 }} onClick={checkout} disabled={checkingOut}
-                  className="mt-4 flex w-full items-center justify-center gap-2 bg-ink py-4 font-mono text-xs font-bold uppercase tracking-[0.2em] text-paper transition-colors hover:bg-neutral-800 disabled:opacity-60">
-                  {checkingOut ? "Preparing secure checkout…" : (<>Express Checkout <ArrowRight size={15} /></>)}
+                  className="mt-3 flex w-full items-center justify-center gap-2 bg-ink py-4 font-mono text-xs font-bold uppercase tracking-[0.2em] text-paper transition-colors hover:bg-neutral-800 disabled:opacity-60">
+                  {checkingOut ? "Preparing secure checkout…" : (<>Continue to Checkout <ArrowRight size={15} /></>)}
                 </motion.button>
                 <p className="mt-3 text-center font-mono text-[9px] uppercase tracking-widest text-steel">
                   Apple Pay · Google Pay · Visa · MC · AMEX · Discover — test card 4242 4242 4242 4242

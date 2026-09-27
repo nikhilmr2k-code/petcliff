@@ -28,7 +28,7 @@ export default function ProductCard({ product, onOpen, index = 0 }) {
     >
       <div className="relative aspect-square overflow-hidden">
         <img src={product.image} alt={product.name} loading="lazy"
-          className="mono-media h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]" />
+          className="product-media h-full w-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.02]" />
         <span className="absolute left-3 top-3 bg-ink px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-paper">
           {product.pet}
         </span>
@@ -48,10 +48,10 @@ export default function ProductCard({ product, onOpen, index = 0 }) {
           ))}
           <span className="ml-1 font-mono text-[10px] text-steel">{product.rating?.toFixed(1)}</span>
         </div>
-        <h3 className="font-display text-sm font-bold uppercase leading-snug tracking-wide">{product.name}</h3>
+        <h3 className="font-display text-sm font-medium uppercase leading-snug tracking-[0.04em]">{product.name}</h3>
         <p className="mt-0.5 font-mono text-[10px] uppercase tracking-widest text-steel">{product.color}</p>
         <div className="mt-3 flex items-center justify-between">
-          <span className="font-mono text-sm font-bold">${product.price.toFixed(2)}</span>
+          <span className="font-mono text-sm">${product.price.toFixed(2)}</span>
           <motion.button
             data-testid={`product-add-to-cart-button-${product.id}`}
             whileTap={{ scale: 0.88 }}

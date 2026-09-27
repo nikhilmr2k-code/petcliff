@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 const SLIDES = [
   {
     video: "https://assets.mixkit.co/videos/1494/1494-1080.mp4",
-    kicker: "Release 01 — The Walking Edit",
+    kicker: "Vol. 01 — The Walking Edit",
     lines: ["WHERE PETS THRIVE,", "HOMES COME ALIVE."],
     cta: { label: "Shop the Drop", to: "/shop" },
   },

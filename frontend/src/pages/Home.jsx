@@ -39,7 +39,7 @@ export default function Home() {
               <Link to={tile.to} data-testid={`pet-tile-${tile.label.toLowerCase()}`}
                 className="group relative block aspect-[16/10] overflow-hidden border border-ink">
                 <img src={tile.img} alt={tile.label}
-                  className="mono-media h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]" />
+                  className="product-media h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]" />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/70 to-transparent" />
                 <div className="absolute bottom-0 left-0 flex w-full items-end justify-between p-7">
                   <span className="font-display text-4xl font-black uppercase text-paper sm:text-5xl">{tile.label}</span>

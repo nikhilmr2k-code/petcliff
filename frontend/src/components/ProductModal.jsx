@@ -22,7 +22,7 @@ export default function ProductModal({ product, onClose }) {
               className="pointer-events-auto grid max-h-[90vh] w-full max-w-3xl grid-cols-1 overflow-y-auto border border-ink bg-paper shadow-2xl md:grid-cols-2 md:overflow-hidden"
               data-lenis-prevent>
               <div className="relative h-64 bg-mist md:h-full">
-                <img src={product.image} alt={product.name} className="mono-media h-full w-full object-cover" />
+                <img src={product.image} alt={product.name} className="product-media h-full w-full object-cover" />
               </div>
               <div className="relative flex flex-col p-7">
                 <button data-testid="product-modal-close" onClick={onClose}

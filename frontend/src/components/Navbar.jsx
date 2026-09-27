@@ -30,6 +30,12 @@ const PRODUCT_MENU = [
   ["Accessories", "/shop?group=accessories", "Goggles, AirTag Holders, Bottles"],
 ];
 
+const MENU_IMG = {
+  dog: "https://images.pexels.com/photos/27208837/pexels-photo-27208837.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  cat: "https://images.pexels.com/photos/19988807/pexels-photo-19988807.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  product: "https://images.pexels.com/photos/29578723/pexels-photo-29578723.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+};
+
 const dropdownPanel = "invisible absolute left-0 top-full z-50 translate-y-2 border border-line bg-paper opacity-0 shadow-xl transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100";
 
 export default function Navbar() {
@@ -70,6 +76,14 @@ export default function Navbar() {
                       </ul>
                     </div>
                   ))}
+                  <div className="hidden xl:flex gap-4">
+                    {["dog", "cat"].map((k) => (
+                      <Link key={k} to={`/shop?pet=${k}`} className="group/img relative h-[220px] w-[168px] overflow-hidden">
+                        <img src={MENU_IMG[k]} alt={k} className="mono-media h-full w-full object-cover transition-transform duration-700 group-hover/img:scale-105" />
+                        <span className="absolute bottom-3 left-3 bg-paper px-2 py-1 font-mono text-[10px] uppercase tracking-[0.2em]">Shop {k}</span>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -78,13 +92,19 @@ export default function Navbar() {
                 Shop by Product <ChevronDown size={13} />
               </button>
               <div className={dropdownPanel} data-testid="nav-product-dropdown">
-                <div className="w-[300px] p-3">
-                  {PRODUCT_MENU.map(([label, to, sub]) => (
-                    <Link key={label} to={to} className="block px-3 py-2.5 transition-colors hover:bg-mist">
-                      <div className="text-sm font-semibold">{label}</div>
-                      <div className="font-mono text-[10px] uppercase tracking-widest text-steel">{sub}</div>
-                    </Link>
-                  ))}
+                <div className="flex p-3">
+                  <div className="w-[300px]">
+                    {PRODUCT_MENU.map(([label, to, sub]) => (
+                      <Link key={label} to={to} className="block px-3 py-2.5 transition-colors hover:bg-mist">
+                        <div className="text-sm font-semibold">{label}</div>
+                        <div className="font-mono text-[10px] uppercase tracking-widest text-steel">{sub}</div>
+                      </Link>
+                    ))}
+                  </div>
+                  <Link to="/shop" className="group/img relative ml-3 hidden h-[236px] w-[190px] overflow-hidden xl:block">
+                    <img src={MENU_IMG.product} alt="Shop all" className="mono-media h-full w-full object-cover transition-transform duration-700 group-hover/img:scale-105" />
+                    <span className="absolute bottom-3 left-3 bg-paper px-2 py-1 font-mono text-[10px] uppercase tracking-[0.2em]">The Collection</span>
+                  </Link>
                 </div>
               </div>
             </div>

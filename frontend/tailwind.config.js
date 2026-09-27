@@ -9,12 +9,13 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                ink: '#000000',
-                paper: '#FFFFFF',
-                mist: '#F7F7F9',
-                smoke: '#EDEDF1',
-                line: '#E6E6EA',
-                steel: '#6E7175',
+                ink: '#231F20',        // warm near-black (Maxbone-style), not pure #000
+                paper: '#FFFFFF',      // crisp white main background (per brief)
+                mist: '#F9F8F4',       // warm off-white for sections / card hover
+                smoke: '#F1F0EC',      // warm light grey
+                line: '#EFEFEF',       // hairline borders
+                steel: '#646464',      // secondary text
+                jet: '#000000',        // reserved for max-contrast moments only
                 background: 'hsl(var(--background))',
                 foreground: 'hsl(var(--foreground))',
                 card: { DEFAULT: 'hsl(var(--card))', foreground: 'hsl(var(--card-foreground))' },
@@ -29,8 +30,8 @@ module.exports = {
                 ring: 'hsl(var(--ring))',
             },
             fontFamily: {
-                sans: ['Archivo', 'sans-serif'],
-                display: ['Archivo', 'sans-serif'],
+                sans: ['"Hanken Grotesk"', 'sans-serif'],
+                display: ['"Hanken Grotesk"', 'sans-serif'],
                 mono: ['"Space Mono"', 'monospace'],
             },
             borderRadius: {

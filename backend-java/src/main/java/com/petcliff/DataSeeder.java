@@ -9,21 +9,34 @@ import com.petcliff.repository.PromotionCodeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Seeds demo catalog + settings for local dev (profile "dev"). Idempotent: only seeds
  * when the products table is empty. Mirrors the Nov launch catalog from the brief.
  */
 @Component
-@Profile("dev")
 public class DataSeeder implements CommandLineRunner {
 
     private static final Logger log = LoggerFactory.getLogger(DataSeeder.class);
+
+    /** slug -> curated Pexels image URL (generated for dev; swap for photoshoot media later). */
+    private static final Properties PRODUCT_IMAGES = loadImages();
+
+    private static Properties loadImages() {
+        Properties props = new Properties();
+        try (InputStream in = DataSeeder.class.getResourceAsStream("/product-images.properties")) {
+            if (in != null) props.load(in);
+        } catch (Exception e) {
+            log.warn("Could not load product-images.properties: {}", e.getMessage());
+        }
+        return props;
+    }
 
     private final ProductRepository products;
     private final PromotionCodeRepository promos;
@@ -98,7 +111,13 @@ public class DataSeeder implements CommandLineRunner {
         p.setCategory(group);
         p.setPriceCents(priceCents);
         p.setCompareAtCents(compareAtCents);
-        p.setImageUrl("https://picsum.photos/seed/" + slug + "/600/600");
+        // Curated, product-relevant Pexels photo per slug (placeholder until the custom
+        // photoshoot lands). Falls back to a real pet photo if a slug isn't mapped.
+        int id = Math.abs(slug.hashCode()) % 100 + 1;
+        String fallback = "cat".equalsIgnoreCase(pet)
+                ? "https://cataas.com/cat?width=600&height=600&_=" + id
+                : "https://placedog.net/600/600?id=" + id;
+        p.setImageUrl(PRODUCT_IMAGES.getProperty(slug, fallback));
         p.setDescription(name + " — high-fashion monochrome essentials for pets that thrive.");
         p.setInventoryCount(50);
         Map<String, Object> meta = new HashMap<>();

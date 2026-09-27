@@ -5,9 +5,9 @@
 @layer base {
     :root {
         --background: 0 0% 100%;
-        --foreground: 0 0% 0%;
+        --foreground: 340 6% 13%;
         --card: 0 0% 100%;
-        --card-foreground: 0 0% 0%;
+        --card-foreground: 340 6% 13%;
         --popover: 0 0% 100%;
         --popover-foreground: 0 0% 0%;
         --primary: 0 0% 0%;
@@ -20,9 +20,9 @@
         --accent-foreground: 0 0% 0%;
         --destructive: 0 72% 45%;
         --destructive-foreground: 0 0% 100%;
-        --border: 240 8% 90%;
-        --input: 240 8% 90%;
-        --ring: 0 0% 0%;
+        --border: 0 0% 94%;
+        --input: 0 0% 94%;
+        --ring: 340 6% 13%;
         --radius: 0.5rem;
     }
 }
@@ -56,9 +56,14 @@
     }
 }
 
-/* All photography renders monochrome; color returns on hover for product cards */
+/* Editorial/hero photography renders monochrome for the high-fashion look */
 .mono-media {
     filter: grayscale(1) contrast(1.06);
+}
+
+/* Product photography stays in full color — color sells the product */
+.product-media {
+    filter: none;
 }
 
 /* Masked line reveal */
