@@ -56,8 +56,8 @@ public class EmailService {
             client().sendEmail(req);
             log.info("Sent email to {} (subject: {})", to, subject);
         } catch (Exception e) {
-            log.warn("Email send failed to {} (subject: {}). Body(text): {} | error: {}",
-                    to, subject, textBody, e.getMessage());
+            // Never log textBody — it may contain secrets (e.g. password-reset tokens).
+            log.warn("Email send failed to {} (subject: {}): {}", to, subject, e.getMessage());
         }
     }
 
