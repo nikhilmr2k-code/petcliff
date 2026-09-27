@@ -15,6 +15,10 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 12MB
 
 server:
   port: ${PORT:8080}
@@ -35,3 +39,7 @@ petcliff:
     cancel-url: ${STRIPE_CANCEL_URL:http://localhost:3000/cart}
   cors:
     allowed-origins: ${CORS_ORIGINS:http://localhost:3000}
+  media:
+    bucket: ${MEDIA_BUCKET:}
+    cdn: ${MEDIA_CDN:}
+    region: ${AWS_REGION:us-west-2}
