@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: petcliff-backend
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/petcliff}
+    username: ${DB_USER:petcliff}
+    password: ${DB_PASSWORD:petcliff}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+server:
+  port: ${PORT:8080}
+
+petcliff:
+  jwt:
+    secret: ${JWT_SECRET:change-me-in-production-a-very-long-random-string-min-32-bytes}
+    access-token-ttl-minutes: 30
+    refresh-token-ttl-days: 30
+  kit:
+    min-items: 3
+    discount-percent: 20
+  free-shipping-threshold-cents: 10000
+  stripe:
+    secret-key: ${STRIPE_SECRET_KEY:sk_test_placeholder}
+    webhook-secret: ${STRIPE_WEBHOOK_SECRET:whsec_placeholder}
+    success-url: ${STRIPE_SUCCESS_URL:http://localhost:3000/checkout/success}
+    cancel-url: ${STRIPE_CANCEL_URL:http://localhost:3000/cart}
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:3000}

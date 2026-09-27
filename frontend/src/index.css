@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 0 0% 0%;
+        --card: 0 0% 100%;
+        --card-foreground: 0 0% 0%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 0 0% 0%;
+        --primary: 0 0% 0%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 240 11% 98%;
+        --secondary-foreground: 0 0% 0%;
+        --muted: 240 11% 98%;
+        --muted-foreground: 240 3% 40%;
+        --accent: 240 11% 98%;
+        --accent-foreground: 0 0% 0%;
+        --destructive: 0 72% 45%;
+        --destructive-foreground: 0 0% 100%;
+        --border: 240 8% 90%;
+        --input: 240 8% 90%;
+        --ring: 0 0% 0%;
+        --radius: 0.5rem;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-paper text-ink font-sans antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    ::selection {
+        background: #000;
+        color: #fff;
+    }
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #fff;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #000;
+    }
+}
+
+@layer base {
+    [data-debug-wrapper="true"] {
+        display: contents !important;
+    }
+}
+
+/* All photography renders monochrome; color returns on hover for product cards */
+.mono-media {
+    filter: grayscale(1) contrast(1.06);
+}
+
+/* Masked line reveal */
+.mask-line {
+    overflow: hidden;
+    display: block;
+}
+
+/* Editorial marquee */
+@keyframes marquee-drift {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+    animation: marquee-drift 44s linear infinite;
+}
+
+/* Reserved 80px bottom-right anchor zone for the Jan 2027 AI assistant — keep clear of fixed UI */
+.ai-anchor-zone {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 80px;
+    height: 80px;
+    pointer-events: none;
+    z-index: 1;
+}

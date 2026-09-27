@@ -1,0 +1,17 @@
+version: 1.0
+runtime: java21
+build:
+  commands:
+    build:
+      - mvn -q -DskipTests package
+run:
+  runtime-version: 21
+  command: java -jar target/petcliff-backend-0.1.0.jar
+  network:
+    port: 8080
+  env:
+    - name: PORT
+      value: "8080"
+    # DB_URL, DB_USER, DB_PASSWORD, JWT_SECRET, STRIPE_SECRET_KEY,
+    # STRIPE_WEBHOOK_SECRET, CORS_ORIGINS are set as App Runner
+    # runtime environment variables / secrets in the console (not committed).

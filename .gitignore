@@ -1,0 +1,17 @@
+# Java / Maven
+backend-java/target/
+*.class
+
+# Node / Vite
+frontend/node_modules/
+frontend/dist/
+
+# Env & secrets
+**/.env
+**/.env.local
+*.pem
+*.key
+
+# OS / editor
+.DS_Store
+*.log

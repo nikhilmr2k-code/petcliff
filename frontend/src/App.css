@@ -1,0 +1,18 @@
+/* Global app-level styles. Base tokens live in index.css. */
+
+#root {
+  min-height: 100vh;
+}
+
+/* Thin monochrome scrollbar to match the luxury aesthetic */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+::-webkit-scrollbar-thumb {
+  background: #000000;
+  border: 3px solid #ffffff;
+}
