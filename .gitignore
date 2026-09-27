@@ -15,3 +15,6 @@ frontend/dist/
 # OS / editor
 .DS_Store
 *.log
+
+# Handoff secrets — never commit
+SECRETS.local.md
