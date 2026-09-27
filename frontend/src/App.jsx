@@ -18,6 +18,7 @@ const KitBuilder = lazy(() => import("@/pages/KitBuilder"));
 const Account = lazy(() => import("@/pages/Account"));
 const Admin = lazy(() => import("@/pages/Admin"));
 const PaymentResult = lazy(() => import("@/pages/PaymentResult"));
+const ResetPassword = lazy(() => import("@/pages/ResetPassword"));
 
 function RouteFallback() {
   return (
@@ -50,6 +51,7 @@ function Chrome() {
           <Route path="/account" element={<Account />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/payment/:result" element={<PaymentResult />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Routes>
       </Suspense>
       {!isAdmin && <Footer />}

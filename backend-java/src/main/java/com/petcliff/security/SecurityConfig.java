@@ -39,6 +39,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/settings/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/tax/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/change-password").authenticated()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/kit/quote").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/payments/checkout").permitAll()
