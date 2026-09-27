@@ -21,6 +21,7 @@ function AuthForms() {
   const [mode, setMode] = useState("login"); // login | register | forgot
   const [form, setForm] = useState({ email: "", password: "", firstName: "", lastName: "" });
   const [busy, setBusy] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState(null); // set after successful register
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
   const submit = async (e) => {
@@ -33,15 +34,53 @@ function AuthForms() {
         setMode("login");
         return;
       }
-      if (mode === "login") await login(form.email, form.password);
-      else await register(form);
-      toast.success(mode === "login" ? "Welcome back." : "Account created.");
+      if (mode === "login") {
+        await login(form.email, form.password);
+        toast.success("Welcome back.");
+      } else {
+        await register(form);
+        // Show email confirmation panel instead of just a toast.
+        setRegisteredEmail(form.email);
+      }
     } catch (err) {
       toast.error(formatApiError(err));
     } finally {
       setBusy(false);
     }
   };
+
+  // Registration success — the user is now logged in but we surface the welcome message first.
+  if (registeredEmail) {
+    return (
+      <div className="mx-auto max-w-md" data-testid="register-success">
+        <div className="border border-ink p-8 text-center">
+          <div className="mb-4 text-4xl" aria-hidden="true">🐾</div>
+          <h2 className="font-display text-2xl font-black tracking-tight">WELCOME TO PET CLIFF</h2>
+          <p className="mt-3 font-mono text-[11px] uppercase leading-relaxed tracking-widest text-steel">
+            Your account is ready. A welcome email is on its way to
+          </p>
+          <p className="mt-1 font-mono text-xs font-semibold text-ink break-all">{registeredEmail}</p>
+          <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.2em] text-steel">
+            (Check your spam folder if it doesn't arrive within a few minutes.)
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a
+              href="/shop"
+              className="flex-1 bg-ink py-3 font-mono text-xs uppercase tracking-[0.25em] text-paper text-center transition-colors hover:bg-neutral-800"
+            >
+              Start Shopping
+            </a>
+            <button
+              onClick={() => setRegisteredEmail(null)}
+              className="flex-1 border border-ink py-3 font-mono text-xs uppercase tracking-[0.25em] text-ink transition-colors hover:bg-mist"
+            >
+              Go to Account
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-md">

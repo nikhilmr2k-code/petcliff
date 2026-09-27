@@ -11,14 +11,19 @@ public class PetCliffProperties {
     private final Kit kit = new Kit();
     private final Stripe stripe = new Stripe();
     private final Cors cors = new Cors();
+    private final Mail mail = new Mail();
     private int freeShippingThresholdCents = 10000;
+    private String frontendUrl = "https://www.petcliff.com";
 
     public Jwt getJwt() { return jwt; }
     public Kit getKit() { return kit; }
     public Stripe getStripe() { return stripe; }
     public Cors getCors() { return cors; }
+    public Mail getMail() { return mail; }
     public int getFreeShippingThresholdCents() { return freeShippingThresholdCents; }
     public void setFreeShippingThresholdCents(int v) { this.freeShippingThresholdCents = v; }
+    public String getFrontendUrl() { return frontendUrl; }
+    public void setFrontendUrl(String v) { this.frontendUrl = v; }
 
     public static class Jwt {
         private String secret;
@@ -60,5 +65,14 @@ public class PetCliffProperties {
         private String allowedOrigins = "http://localhost:3000";
         public String getAllowedOrigins() { return allowedOrigins; }
         public void setAllowedOrigins(String v) { this.allowedOrigins = v; }
+    }
+
+    public static class Mail {
+        private String from = "noreply@petcliff.com";
+        private String region = "us-west-2";
+        public String getFrom() { return from; }
+        public void setFrom(String v) { this.from = v; }
+        public String getRegion() { return region; }
+        public void setRegion(String v) { this.region = v; }
     }
 }

@@ -1,9 +1,9 @@
 package com.petcliff.service;
 
+import com.petcliff.config.PetCliffProperties;
 import jakarta.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sesv2.SesV2Client;
@@ -12,7 +12,7 @@ import software.amazon.awssdk.services.sesv2.model.*;
 /**
  * Sends transactional email via AWS SES v2 using the default credential chain (EC2 instance role).
  * If SES is unconfigured or send fails, the message is logged (WARN) and the error is swallowed,
- * so local/dev and sandbox environments never 500 on a password-reset request.
+ * so local/dev and sandbox environments never 500 on a registration or password-reset request.
  */
 @Service
 public class EmailService {
@@ -23,10 +23,9 @@ public class EmailService {
     private final String region;
     private volatile SesV2Client client;
 
-    public EmailService(@Value("${MAIL_FROM:noreply@petcliff.com}") String from,
-                        @Value("${AWS_REGION:us-west-2}") String region) {
-        this.from = from;
-        this.region = region;
+    public EmailService(PetCliffProperties props) {
+        this.from = props.getMail().getFrom();
+        this.region = props.getMail().getRegion();
     }
 
     private SesV2Client client() {

@@ -1,5 +1,6 @@
 package com.petcliff.service;
 
+import com.petcliff.config.PetCliffProperties;
 import com.petcliff.dto.AuthResponse;
 import com.petcliff.dto.ChangePasswordRequest;
 import com.petcliff.dto.ForgotPasswordRequest;
@@ -13,7 +14,6 @@ import com.petcliff.repository.CustomerRepository;
 import com.petcliff.repository.PasswordResetTokenRepository;
 import com.petcliff.security.CurrentUser;
 import com.petcliff.security.JwtService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,13 +43,13 @@ public class AuthService {
                        JwtService jwtService,
                        PasswordResetTokenRepository resetTokenRepository,
                        EmailService emailService,
-                       @Value("${FRONTEND_URL:https://www.petcliff.com}") String frontendUrl) {
+                       PetCliffProperties props) {
         this.customerRepository = customerRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.resetTokenRepository = resetTokenRepository;
         this.emailService = emailService;
-        this.frontendUrl = frontendUrl;
+        this.frontendUrl = props.getFrontendUrl();
     }
 
     @Transactional
@@ -64,6 +64,10 @@ public class AuthService {
         customer.setFirstName(req.firstName());
         customer.setLastName(req.lastName());
         customer = customerRepository.save(customer);
+
+        // Send welcome email — failures are swallowed in EmailService (never 500 the request).
+        sendWelcomeEmail(customer);
+
         return toAuthResponse(customer);
     }
 
@@ -141,6 +145,32 @@ public class AuthService {
         customerRepository.save(customer);
         prt.setUsed(true);
         resetTokenRepository.save(prt);
+    }
+
+    // ── Private helpers ────────────────────────────────────────────────────────
+
+    private void sendWelcomeEmail(Customer customer) {
+        String firstName = customer.getFirstName() != null ? customer.getFirstName() : "there";
+        String shopUrl = frontendUrl + "/shop";
+        String text = "Hi " + firstName + ",\n\n"
+                + "Welcome to Pet Cliff! Your account has been created.\n\n"
+                + "Start shopping: " + shopUrl + "\n\n"
+                + "— The Pet Cliff Team";
+        String html = "<div style=\"font-family:sans-serif;max-width:520px;margin:0 auto;color:#1a1a1a\">"
+                + "<h2 style=\"font-size:22px;font-weight:900;letter-spacing:-0.5px;margin-bottom:8px\">"
+                + "Welcome to Pet Cliff, " + firstName + "!</h2>"
+                + "<p style=\"color:#444;font-size:14px;line-height:1.6\">"
+                + "Your account is all set. Browse our collection of premium pet products and build "
+                + "your pet's perfect kit.</p>"
+                + "<p style=\"margin-top:24px\">"
+                + "<a href=\"" + shopUrl + "\" "
+                + "style=\"display:inline-block;background:#1a1a1a;color:#fff;padding:12px 28px;"
+                + "font-size:12px;font-family:monospace;letter-spacing:0.15em;text-transform:uppercase;"
+                + "text-decoration:none\">Shop Now</a></p>"
+                + "<p style=\"margin-top:32px;font-size:11px;color:#888\">"
+                + "You're receiving this because you created an account at petcliff.com.</p>"
+                + "</div>";
+        emailService.send(customer.getEmail(), "Welcome to Pet Cliff 🐾", html, text);
     }
 
     static String sha256(String value) {
