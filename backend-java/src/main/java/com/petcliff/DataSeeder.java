@@ -74,7 +74,8 @@ public class DataSeeder implements CommandLineRunner {
         if (!customers.existsByEmail("admin@petcliff.com")) {
             Customer admin = new Customer();
             admin.setEmail("admin@petcliff.com");
-            admin.setPasswordHash(passwordEncoder.encode("PetCliff@2026"));
+            String adminPw = System.getenv().getOrDefault("ADMIN_PASSWORD", "changeme-dev-only");
+            admin.setPasswordHash(passwordEncoder.encode(adminPw));
             admin.setFirstName("Pet Cliff");
             admin.setLastName("Admin");
             admin.setReferralCode("ADMIN-PETCLIFF");
